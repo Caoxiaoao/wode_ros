@@ -1,0 +1,10 @@
+<robot name="benchi" xmlns:xacro="http://wiki.ros.org/xacro">
+      <xacro:include filename="guanxing.xacro" />
+      <xacro:include filename="demo01.xacro" />
+      <xacro:include filename="demo02.xacro" />
+      <xacro:include filename="demo03.xacro" />
+      <xacro:include filename="gazebo_fangzhen/move.xacro" />
+      <xacro:include filename="gazebo_fangzhen/laser.xacro" />
+      <xacro:include filename="gazebo_fangzhen/camera.xacro" />
+      <xacro:include filename="gazebo_fangzhen/kinect.xacro" />
+</robot>

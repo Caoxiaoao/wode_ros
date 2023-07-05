@@ -1,0 +1,44 @@
+<robot name="chuanganqi" xmlns:xacro="http://wiki.ros.org/xacro">
+    <xacro:property name="support_radius" value="0.01" />
+    <xacro:property name="support_length" value="0.15" />
+    <xacro:property name="laser_radius" value="0.03" />
+    <xacro:property name="laser_length" value="0.05" />
+
+    <xacro:macro name="support_fun" params="link_name_4">
+        <link name="${link_name_4}">
+            <visual>
+                <geometry>
+                    <cylinder radius="${support_radius}" length="${support_length}" />
+                </geometry>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <material name="red" />
+            </visual>
+        </link>
+        <joint name="dipan_support" type="fixed">
+            <parent link="dipan" />
+            <child link="${link_name_4}" />
+            <origin xyz="0 0 ${support_length/2+dipan_length/2}" rpy="0 0 0" />
+            <axis xyz="0 0 0" />
+        </joint>
+    </xacro:macro>
+    <xacro:support_fun link_name_4="support" />
+
+    <xacro:macro name="laser_fun" params="link_name_5">
+        <link name="${link_name_5}">
+            <visual>
+                <geometry>
+                    <cylinder radius="${laser_radius}" length="${laser_length}" />
+                </geometry>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <material name="black" />
+            </visual>
+        </link>
+        <joint name="support_laser" type="fixed">
+            <parent link="support" />
+            <child link="${link_name_5}" />
+            <origin xyz="0 0 ${support_length/2+laser_length/2}" rpy="0 0 0" />
+            <axis xyz="0 0 0" />
+        </joint>
+    </xacro:macro>
+    <xacro:laser_fun link_name_5="laser" />
+</robot>

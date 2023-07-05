@@ -1,0 +1,7 @@
+<launch>
+    <!--添加点云坐标系到kinect连杆坐标系变换-->
+    <node pkg="tf2_ros" type="static_transform_publisher" name="bian" args="0 0 0 -1.57 0 -1.57 /support /support_depth" />
+    <node pkg="rviz" name="rviz" type="rviz" />
+    <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher" output="screen" />
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="screen" />
+</launch>

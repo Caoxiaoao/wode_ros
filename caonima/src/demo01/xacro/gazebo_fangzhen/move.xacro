@@ -1,0 +1,47 @@
+<robot name="my_car_move" xmlns:xacro="http://wiki.ros.org/xacro">
+
+    <!-- 传动实现:用于连接控制器与关节 -->
+    <xacro:macro name="joint_trans" params="joint_name">
+        <!-- 这一部分直接导入进来不用管 -->
+        <transmission name="${joint_name}_trans">
+            <type>transmission_interface/SimpleTransmission</type>
+            <joint name="${joint_name}">
+                <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+            </joint>
+            <actuator name="${joint_name}_motor">
+                <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+                <mechanicalReduction>1</mechanicalReduction>
+            </actuator>
+        </transmission>
+    </xacro:macro>
+
+    <!-- 宏的调用 -->
+    <xacro:joint_trans joint_name="dipan_qudonglun_left" />
+    <xacro:joint_trans joint_name="dipan_qudonglun_right" />
+
+    <!-- 控制器 -->
+    <gazebo>
+        <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
+            <rosDebugLevel>Debug</rosDebugLevel>
+            <publishWheelTF>true</publishWheelTF>
+            <robotNamespace>/</robotNamespace>
+            <publishTf>1</publishTf>
+            <publishWheelJointState>true</publishWheelJointState>
+            <alwaysOn>true</alwaysOn>
+            <updateRate>100.0</updateRate>
+            <legacyMode>true</legacyMode>
+            <leftJoint>dipan_qudonglun_left</leftJoint> <!-- 左轮关节 -->
+            <rightJoint>dipan_qudonglun_right</rightJoint> <!-- 右轮关节 -->
+            <wheelSeparation>${dipan_radius*2+qudonglun_length}</wheelSeparation> <!-- 车轮间距 -->
+            <wheelDiameter>${qudonglun_radius * 2}</wheelDiameter> <!-- 车轮直径 -->
+            <broadcastTF>1</broadcastTF>
+            <wheelTorque>30</wheelTorque>
+            <wheelAcceleration>1.8</wheelAcceleration>
+            <commandTopic>cmd_vel</commandTopic> <!-- 运动控制话题 -->
+            <odometryFrame>odom</odometryFrame> 
+            <odometryTopic>odom</odometryTopic> <!-- 里程计话题 -->
+            <robotBaseFrame>base_footprint</robotBaseFrame> <!-- 根坐标系 -->
+        </plugin>
+    </gazebo>
+
+</robot>

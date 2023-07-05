@@ -1,0 +1,2 @@
+
+-DCATKIN_DEVEL_PREFIX=/home/curry/caonima/devel -DCMAKE_INSTALL_PREFIX=/home/curry/caonima/install -G Unix Makefiles

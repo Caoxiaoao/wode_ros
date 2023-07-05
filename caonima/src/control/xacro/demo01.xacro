@@ -1,0 +1,72 @@
+<robot name="jixie" xmlns:xacro="http://wiki.ros.org/xacro">
+    <xacro:property name="base_footprint_length" value="0.001" />
+    <xacro:property name="base_footprint_wide" value="0.001" />
+    <xacro:property name="base_footprint_high" value="0.001" />
+    <xacro:property name="dipan_radius" value="0.1" />
+    <xacro:property name="dipan_length" value="0.08" />
+    <xacro:property name="qudonglun_radius" value="0.0325" />
+    <xacro:property name="qudonglun_length" value="0.015" />
+    <xacro:property name="PI" value="3.1415927" />
+    <xacro:property name="dipan_length" value="0.08" />
+    <xacro:property name="lidi_space" value="0.015" />
+
+    <material name="black">
+        <color rgba="0.0 0.0 0.0 1.0" />
+    </material>
+    <material name="orange">
+        <color rgba="0.6 0.4 0.0 1.0" />
+    </material>
+    <material name="red">
+        <color rgba="1 0 0 1.0" />
+    </material>
+
+    <xacro:macro name="base_fun" params="link_name_1">
+        <link name="${link_name_1}">
+            <visual>
+                <geometry>
+                    <box size="${base_footprint_length} ${base_footprint_wide} ${base_footprint_high}" />
+                </geometry>
+            </visual>
+        </link>
+    </xacro:macro>
+    <xacro:base_fun link_name_1="base_footprint" />
+
+    <xacro:macro name="dipan_fun" params="link_name_2">
+        <link name="${link_name_2}">
+            <visual>
+                <geometry>
+                    <cylinder radius="${dipan_radius}" length="${dipan_length}" />
+                </geometry>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <material name="orange" />
+            </visual>
+        </link>
+        <joint name="base_dipan" type="fixed">
+            <parent link="base_footprint" />
+            <child link="${link_name_2}" />
+            <origin xyz="0 0 ${lidi_space+dipan_length/2}" rpy="0 0 0" />
+            <axis xyz="0 0 0" />
+        </joint>
+    </xacro:macro>
+    <xacro:dipan_fun link_name_2="dipan" />
+
+    <xacro:macro name="qudonglun_fun" params="side symbol">
+        <link name="qudonglun_${side}">
+            <visual>
+                <geometry>
+                    <cylinder radius="${qudonglun_radius}" length="${qudonglun_length}" />
+                </geometry>
+                <origin xyz="0 0 0" rpy="0 1.57 0" />
+                <material name="black" />
+            </visual>
+        </link>
+        <joint name="dipan_qudonglun_${side}" type="continuous">
+            <parent link="dipan" />
+            <child link="qudonglun_${side}" />
+            <origin xyz="${symbol*(dipan_radius+qudonglun_length/2)} 0 ${-(lidi_space+dipan_length/2-qudonglun_radius)}" rpy="0 0 0" />
+            <axis xyz="1 0 0" />
+        </joint>
+    </xacro:macro>
+    <xacro:qudonglun_fun side="left" symbol="-1" />
+    <xacro:qudonglun_fun side="right" symbol="+1" />
+</robot>

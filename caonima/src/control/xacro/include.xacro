@@ -1,0 +1,5 @@
+<robot name="benchi" xmlns:xacro="http://wiki.ros.org/xacro">
+      <xacro:include filename="demo01.xacro" />
+      <xacro:include filename="demo02.xacro" />
+      <xacro:include filename="demo03.xacro" />
+</robot>
